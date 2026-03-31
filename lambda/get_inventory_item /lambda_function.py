@@ -7,7 +7,7 @@ def lambda_handler(event, context):
     dynamo_client = boto3.client('dynamodb')
 
     # Get the table name from environment variable
-    table_name = os.getenv('TABLE_NAME', 'SAM-Moments')
+    table_name = os.getenv('TABLE_NAME', 'Inventory')
 
     # Get the key from the path parameters
     if 'pathParameters' not in event or 'id' not in event['pathParameters']:
@@ -20,7 +20,7 @@ def lambda_handler(event, context):
 
     # Prepare the key for DynamoDB
     key = {
-        '_id': {'S': key_value}
+        'item_id': {'S': key_value}
     }
 
     # Get the item from the table
