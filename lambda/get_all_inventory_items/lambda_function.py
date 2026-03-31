@@ -7,7 +7,7 @@ def lambda_handler(event, context):
     dynamo_client = boto3.client('dynamodb')
 
     # Get the table name from environment variable
-    table_name = os.getenv('TABLE_NAME', 'SAM-Moments')
+    table_name = os.getenv('TABLE_NAME', 'Inventory')
 
     # Scan the table
     try:
