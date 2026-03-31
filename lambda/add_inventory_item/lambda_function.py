@@ -27,12 +27,12 @@ def lambda_handler(event, context):
     try:
         table.put_item(
             Item={
-                '_id': unique_id,
-                '_name': data['_name'],
-                '_description': data['_description'],
-                '_qty': data['_qty'],
-                '_price': data['_price'],
-                '_location_id': data['_location_id']
+                'item_id': unique_id,
+                'item_name': data['item_name'],
+                'item_description': data['item_description'],
+                'item_qty': data['item_qty'],
+                'item_price': data['item_price'],
+                'item_location_id': data['item_location_id']
             }
         )
         return {
