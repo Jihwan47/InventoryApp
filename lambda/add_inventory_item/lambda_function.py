@@ -14,7 +14,7 @@ def lambda_handler(event, context):
         }
 
     # Get the table name from environment variable
-    table_name = os.getenv('TABLE_NAME', 'SAM-Moments')
+    table_name = os.getenv('TABLE_NAME', 'Inventory')
 
     # DynamoDB setup
     dynamodb = boto3.resource('dynamodb')
@@ -28,10 +28,11 @@ def lambda_handler(event, context):
         table.put_item(
             Item={
                 '_id': unique_id,
-                'Date': data['Date'],
-                'Event': data['Event'],
-                'Description': data['Description'],
-                'Location': data['Location']
+                '_name': data['_name'],
+                '_description': data['_description'],
+                '_qty': data['_qty'],
+                '_price': data['_price'],
+                '_location_id': data['_location_id']
             }
         )
         return {
