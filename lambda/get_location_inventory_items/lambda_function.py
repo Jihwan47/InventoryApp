@@ -1,11 +1,9 @@
 """Lambda function to retrieve inventory items by location."""
 import json
-from botocore.exceptions import ClientError
-from decimal import Decimal
-import os
-
 import boto3
 from boto3.dynamodb.conditions import Key
+from botocore.exceptions import ClientError
+from decimal import Decimal
 
 
 # Initialize the DynamoDB client
