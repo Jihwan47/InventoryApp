@@ -3,6 +3,7 @@ import os
 
 import boto3
 
+
 def lambda_handler(event, context):
     # Initialize DynamoDB client
     dynamo_client = boto3.client('dynamodb')
