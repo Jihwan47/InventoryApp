@@ -1,3 +1,4 @@
+"""Lambda function to retrieve inventory items by location."""
 import json
 from botocore.exceptions import ClientError
 from decimal import Decimal
