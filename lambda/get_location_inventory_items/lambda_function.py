@@ -6,6 +6,7 @@ import os
 import boto3
 from boto3.dynamodb.conditions import Key
 
+
 # Initialize the DynamoDB client
 dynamodb = boto3.resource('dynamodb')
 
