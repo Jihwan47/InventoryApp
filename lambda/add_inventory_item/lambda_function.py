@@ -1,8 +1,9 @@
 import json
-import uuid
 import os
+import uuid
 
 import boto3
+
 
 def lambda_handler(event, context):
     # Parse incoming JSON data
