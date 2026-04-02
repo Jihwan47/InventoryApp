@@ -1,7 +1,6 @@
 """Lambda function to add inventory items to DynamoDB."""
-import json
 import boto3
-import uuid
+import json
 
 
 def lambda_handler(event, context):
