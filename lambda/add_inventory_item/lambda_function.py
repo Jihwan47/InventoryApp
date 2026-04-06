@@ -16,7 +16,7 @@ def lambda_handler(event, context):
         }
 
     # Get the table name from environment variable
-    table_name = os.getenv('TABLE_NAME', 'Inventory')
+    table_name = os.getenv('TABLE_NAME','Inventory')
 
     # DynamoDB setup
     dynamodb = boto3.resource('dynamodb')
