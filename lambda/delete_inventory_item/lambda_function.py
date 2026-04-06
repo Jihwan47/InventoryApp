@@ -9,7 +9,7 @@ def lambda_handler(event, context):
     dynamo_client = boto3.client('dynamodb')
 
     # Get the table name from environment variable
-    table_name = os.getenv('TABLE_NAME', 'Inventory')
+    table_name = os.getenv('TABLE_NAME','Inventory')
 
     # Extract the '_id' from the path parameters
     if 'pathParameters' not in event or 'id' not in event['pathParameters']:
