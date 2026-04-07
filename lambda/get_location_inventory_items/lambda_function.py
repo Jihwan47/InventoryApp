@@ -25,6 +25,9 @@ def lambda_handler(event, context):
     table = dynamodb.Table(TABLE_NAME)
 
     try:
+        # Extract location_id
+        location_id = event.get('location_id')
+        
         # Query to get all items with SK = "Dog#large#GreatDane#001" using the GSI
         response = table.query(
             IndexName= 'GSI_SK_PK',
