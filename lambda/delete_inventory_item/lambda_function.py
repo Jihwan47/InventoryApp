@@ -1,49 +1,44 @@
-"""Lambda function to delete inventory items from DynamoDB."""
-import boto3
 import json
-import os
+import boto3
+from boto3.dynamodb.conditions import Key
+from botocore.exceptions import ClientError
+from decimal import Decimal
 
+# Initialize the DynamoDB client
+dynamodb = boto3.resource('dynamodb')
+
+# Define the DynamoDB table name
+TABLE_NAME = 'AnimalRescue'
+
+# Function to convert Decimal to int/float
+def convert_decimals(obj):
+    if isinstance(obj, list):
+        return [convert_decimals(i) for i in obj]
+    elif isinstance(obj, dict):
+        return {k: convert_decimals(v) for k, v in obj.items()}
+    elif isinstance(obj, Decimal):  
+        return int(obj) if obj % 1 == 0 else float(obj)  # Convert to int if whole number, else float
+    return obj
 
 def lambda_handler(event, context):
-    # Initialize DynamoDB client
-    dynamo_client = boto3.client('dynamodb')
+    table = dynamodb.Table(TABLE_NAME)
 
-    # Get the table name from environment variable
-    table_name = os.getenv('TABLE_NAME','Inventory')
-
-    # Extract the '_id' from the path parameters
-    if 'pathParameters' not in event or 'id' not in event['pathParameters']:
-        return {
-            'statusCode': 400,
-            'body': json.dumps("Missing 'id' path parameter")
-        }
-
-    item_id = event['pathParameters']['id']
-    
-    query_params = event.get('queryStringParameters') or {}
-    location_id = query.params.get['location_id']
-    if 'id' not in params or 'location_id' not in params:
-        return {
-            'statusCode': 400,
-            'body': json.dumps("Missing 'id' or 'location_id' path parameter")
-        }
-    
-    # Prepare the key for DynamoDB
-    key = {
-        'item_id': {'S': key_value},
-        'location_id': {'N': location_id}
-    }
-
-    # Attempt to delete the item from the table
     try:
-        dynamo_client.delete_item(TableName=table_name, Key=key)
-        return {
-            'statusCode': 200,
-            'body': json.dumps(f"Item with ID {key_value} deleted successfully.")
-        }
-    except Exception as e:
-        print(e)
+        # Query to get all items with PK = "Location1"
+        response = table.query(
+            KeyConditionExpression=Key('PK').eq('Location1')
+        )
+        items = response.get('Items', [])
+
+        items = convert_decimals(items)
+    except ClientError as e:
+        print(f"Failed to query items: {e.response['Error']['Message']}")
         return {
             'statusCode': 500,
-            'body': json.dumps(f"Error deleting item: {str(e)}")
+            'body': json.dumps('Failed to query items')
         }
+
+    return {
+        'statusCode': 200,
+        'body': json.dumps(items)
+    }
