@@ -24,13 +24,13 @@ def lambda_handler(event, context):
     table = dynamodb.Table(TABLE_NAME)
 
     try:
-        item_id = event['pathParameters']['id']
+        item_id = event['pathParameters']['item_id']
         
         # Query to get all items with PK = "Location1"
         response = table.get_item(
             Key = {'item_id': item_id}
         )
-        items = response.get('Items', [])
+        items = response.get('Item')
 
         items = convert_decimals(items)
     except ClientError as e:
