@@ -5,7 +5,7 @@ from botocore.exceptions import ClientError
 from decimal import Decimal
 
 # Initialize the DynamoDB client
-dynamodb = boto3.('dynamodb')
+dynamodb = boto3.resource('dynamodb')
 
 # Define the DynamoDB table name
 TABLE_NAME = 'Inventory'
