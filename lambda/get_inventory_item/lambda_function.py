@@ -26,7 +26,7 @@ def lambda_handler(event, context):
     try:
         # Query to get all items with PK = "Location1"
         response = table.get_item(
-            Key = {'id': item_id)
+            Key = {'id': item_id}
         )
         items = response.get('Items', [])
 
