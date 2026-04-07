@@ -31,7 +31,7 @@ def lambda_handler(event, context):
             KeyConditionExpression=Key('item_id').eq(item_id)
         )
         
-        items = response.get('Item')
+        items = response.get('Items', [])
 
         items = convert_decimals(items)
     except ClientError as e:
