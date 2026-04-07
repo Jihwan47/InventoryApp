@@ -8,7 +8,7 @@ from decimal import Decimal
 dynamodb = boto3.resource('dynamodb')
 
 # Define the DynamoDB table name
-TABLE_NAME = 'AnimalRescue'
+TABLE_NAME = 'Inventory'
 
 # Function to convert Decimal to int/float
 def convert_decimals(obj):
