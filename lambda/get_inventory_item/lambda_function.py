@@ -27,9 +27,10 @@ def lambda_handler(event, context):
         item_id = event['pathParameters']['id']
         
         # Query to get all items with PK = "Location1"
-        response = table.get_item(
-            Key = {'id': item_id}
+        response = table.query(
+            KeyconditionExpression=Key('item_id').eq(item_id)
         )
+        
         items = response.get('Item')
 
         items = convert_decimals(items)
