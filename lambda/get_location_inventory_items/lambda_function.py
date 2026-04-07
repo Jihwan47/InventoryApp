@@ -28,7 +28,7 @@ def lambda_handler(event, context):
         # Query to get all items with SK = "Dog#large#GreatDane#001" using the GSI
         response = table.query(
             IndexName= 'GSI_SK_PK',
-            KeyConditionExpression=Key('SK').eq('1')
+            KeyConditionExpression=Key('location_id').eq('1')
         )
         items = response.get('Items', [])
 
