@@ -3,6 +3,7 @@ import json
 import boto3
 import uuid
 import os
+from decimal import Decimal
 
 
 def lambda_handler(event, context):
