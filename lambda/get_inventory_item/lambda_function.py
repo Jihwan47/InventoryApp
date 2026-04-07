@@ -28,7 +28,7 @@ def lambda_handler(event, context):
         
         # Query to get all items with PK = "Location1"
         response = table.query(
-            KeyconditionExpression=Key('item_id').eq(item_id)
+            KeyConditionExpression=Key('item_id').eq(item_id)
         )
         
         items = response.get('Item')
