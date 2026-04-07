@@ -18,7 +18,10 @@ def lambda_handler(event, context):
             'body': json.dumps("Missing 'id' path parameter")
         }
 
-    key_value = event['pathParameters']['id']
+    item_id = event['pathParameters']['id']
+    
+    query_params = event.get('queryStringParameters') or {}
+    location_id = params['location_id']
 
     if 'id' not in params or 'location_id' not in params:
         return {
@@ -26,9 +29,6 @@ def lambda_handler(event, context):
             'body': json.dumps("Missing 'id' or 'location_id' path parameter")
         }
     
-    item_id = params['id']
-    location_id = params['location_id']
-
     # Prepare the key for DynamoDB
     key = {
         'item_id': {'S': key_value},
