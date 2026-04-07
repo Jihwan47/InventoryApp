@@ -21,7 +21,7 @@ def lambda_handler(event, context):
     item_id = event['pathParameters']['id']
     
     query_params = event.get('queryStringParameters') or {}
-    location_id = params['location_id']
+    location_id = query.params.get['location_id']
     if 'id' not in params or 'location_id' not in params:
         return {
             'statusCode': 400,
