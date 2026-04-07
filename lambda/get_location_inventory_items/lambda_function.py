@@ -1,16 +1,15 @@
-"""Lambda function to retrieve inventory items by location."""
 import json
 import boto3
 from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 from decimal import Decimal
 
-
 # Initialize the DynamoDB client
 dynamodb = boto3.resource('dynamodb')
 
 # Define the DynamoDB table name
 TABLE_NAME = 'Inventory'
+GSI_NAME = 'GSI_SK_PK'
 
 # Function to convert Decimal to int/float
 def convert_decimals(obj):
@@ -26,12 +25,14 @@ def lambda_handler(event, context):
     table = dynamodb.Table(TABLE_NAME)
 
     try:
-        # Query to get all items with PK = "Location1"
+        # Query to get all items with SK = "Dog#large#GreatDane#001" using the GSI
         response = table.query(
-            KeyConditionExpression=Key('PK').eq('Location1')
+            IndexName= 'GSI_SK_PK',
+            KeyConditionExpression=Key('SK').eq('1')
         )
         items = response.get('Items', [])
 
+        # Convert Decimal values to JSON serializable types
         items = convert_decimals(items)
     except ClientError as e:
         print(f"Failed to query items: {e.response['Error']['Message']}")
