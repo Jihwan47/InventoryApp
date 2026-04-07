@@ -35,7 +35,7 @@ def lambda_handler(event, context):
                 'item_description': data['item_description'],
                 'item_qty': data['item_qty'],
                 'item_price': Decimal(str(data['item_price'])),
-                'item_location_id': data['item_location_id']
+                'location_id': data['item_location_id']
             }
         )
         return {
