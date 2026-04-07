@@ -20,9 +20,19 @@ def lambda_handler(event, context):
 
     key_value = event['pathParameters']['id']
 
+    if 'id' not in params or 'location_id' not in params:
+        return {
+            'statusCode': 400,
+            'body': json.dumps("Missing 'id' or 'location_id' path parameter")
+        }
+    
+    item_id = params['id']
+    location_id = params['location_id']
+
     # Prepare the key for DynamoDB
     key = {
-        'item_id': {'S': key_value}
+        'item_id': {'S': key_value},
+        'location_id': {'N': location_id}
     }
 
     # Attempt to delete the item from the table
