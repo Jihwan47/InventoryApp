@@ -24,15 +24,21 @@ def lambda_handler(event, context):
     table = dynamodb.Table(TABLE_NAME)
 
     try:
+        item_id = event['pathParameters']['id']
+        location_id = event.get('location_id')
+        
         # Query to get all items with PK = "Location1"
-        response = table.query(
-            KeyConditionExpression=Key('PK').eq('Location1')
+        response = table.delete_item(
+            Key={
+                'item_id': item_id,
+                'location_id': location_id
+            }
         )
+        
         items = response.get('Items', [])
-
         items = convert_decimals(items)
     except ClientError as e:
-        print(f"Failed to query items: {e.response['Error']['Message']}")
+        print(f"Failed to delete items: {e.response['Error']['Message']}")
         return {
             'statusCode': 500,
             'body': json.dumps('Failed to query items')
