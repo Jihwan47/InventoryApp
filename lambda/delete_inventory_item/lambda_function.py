@@ -25,7 +25,7 @@ def lambda_handler(event, context):
 
     try:
         item_id = event['pathParameters']['id']
-        location_id = int(event['queryParameter']['location_id'])
+        location_id = int(event['queryStringParameter']['location_id'])
         
         # Query to get all items with PK = "Location1"
         response = table.delete_item(
