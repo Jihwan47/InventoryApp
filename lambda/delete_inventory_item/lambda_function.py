@@ -34,6 +34,12 @@ def lambda_handler(event, context):
                 'location_id': location_id
             }
         )
+
+        return {
+            'statusCode': 200,
+            'body': json.dumps('Item deleted successfully')
+        }
+    
     except ClientError as e:
         print(f"Failed to delete items: {e.response['Error']['Message']}")
         return {
@@ -41,7 +47,3 @@ def lambda_handler(event, context):
             'body': json.dumps('Failed to query items')
         }
 
-    return {
-        'statusCode': 200,
-        'body': json.dumps(items)
-    }
