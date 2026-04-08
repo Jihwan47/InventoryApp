@@ -26,7 +26,7 @@ def lambda_handler(event, context):
 
     try:
         # Extract location_id
-        location_id = event.get('location_id')
+        location_id = int(event.get('pathParameters', {}).get('id'))
         
         # Query to get all items with SK = "Dog#large#GreatDane#001" using the GSI
         response = table.query(
