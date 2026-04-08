@@ -25,7 +25,7 @@ def lambda_handler(event, context):
 
     try:
         item_id = event['pathParameters']['id']
-        location_id = event.get('location_id')
+        location_id = int(event['queryParameter']['location_id']
         
         # Query to get all items with PK = "Location1"
         response = table.delete_item(
@@ -34,9 +34,6 @@ def lambda_handler(event, context):
                 'location_id': location_id
             }
         )
-        
-        items = response.get('Items', [])
-        items = convert_decimals(items)
     except ClientError as e:
         print(f"Failed to delete items: {e.response['Error']['Message']}")
         return {
