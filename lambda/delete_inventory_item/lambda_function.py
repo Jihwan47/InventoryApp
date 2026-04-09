@@ -33,17 +33,7 @@ def lambda_handler(event, context):
         
         items = response.get('Items', [])
 
-        if not items:
-            return {
-                'statusCode': 404,
-                'body': json.dumps(f"Item with ID {pK} not found.")
-            }
- 
         items = convert_decimals(items)
-        location_id = items[0]['location_id']
- 
-        table.delete_item(Key = {'_id':pK, 'location_id':location_id})
-   
     except ClientError as e:
         print(f"Failed to query items: {e.response['Error']['Message']}")
         return {
