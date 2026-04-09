@@ -25,25 +25,33 @@ def lambda_handler(event, context):
 
     try:
         item_id = event['pathParameters']['id']
-        location_id = int(event['queryStringParameters']['location_id'])
         
         # Query to get all items with PK = "Location1"
-        response = table.delete_item(
-            Key={
-                'item_id': item_id,
-                'location_id': location_id
-            }
+        response = table.query(
+            KeyConditionExpression=Key('item_id').eq(item_id)
         )
+        
+        items = response.get('Items', [])
 
-        return {
-            'statusCode': 200,
-            'body': json.dumps('Item deleted successfully')
-        }
-    
+        if not items:
+            return {
+                'statusCode': 404,
+                'body': json.dumps(f"Item with ID {pK} not found.")
+            }
+ 
+        items = convert_decimals(items)
+        location_id = items[0]['location_id']
+ 
+        table.delete_item(Key = {'_id':pK, 'location_id':location_id})
+   
     except ClientError as e:
-        print(f"Failed to delete items: {e.response['Error']['Message']}")
+        print(f"Failed to query items: {e.response['Error']['Message']}")
         return {
             'statusCode': 500,
             'body': json.dumps('Failed to query items')
         }
 
+    return {
+        'statusCode': 200,
+        'body': json.dumps(items)
+    }
